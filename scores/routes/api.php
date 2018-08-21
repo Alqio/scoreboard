@@ -21,4 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('auth:api')->group(function () {
    Route::get('/game', 'Controller@index');
 });
-Route::get('game', 'Controller@index');
+Route::prefix('game')->group(function() {
+   Route::get('/', 'Controller@index');
+   Route::post('/', 'Controller@createGame');
+   Route::post('/{game}/scores', 'Controller@addScore');
+   Route::get('/{game}/scores', 'Controller@scores');
+});

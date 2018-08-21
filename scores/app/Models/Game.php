@@ -10,14 +10,35 @@ class Game extends Model
     protected $table = 'games';
 
     protected $fillable = [
-        'name', 'owner'
+        'name', 'slug', 'owner'
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function getRouteKey()
+    {
+        return $this->slug;
+    }
 
     public $timestamps = true;
 
+    public function create($data) {
+        $this->fill($data);
+        $slug = str_slug($this->name, '-');
 
-    public function scores() {
-        return $this->hasMany('App\Models\Score');
+        $duplicates = Game::where('name', '=', $this->name)->count();
+        if ($duplicates > 0) {
+            $slug = $slug . "-" . $duplicates;
+        }
+        $this->slug = $slug;
+
+        $this->save();
     }
 
+    public function scores() {
+        return $this->hasMany('\App\Models\Score');
+    }
 }

@@ -9,7 +9,7 @@ class Score extends Model
     protected $table = "scores";
 
     protected $fillable = [
-        'gameId', 'score', 'scorer'
+        'game_id', 'score', 'scorer'
     ];
 
     public $timestamps = true;
@@ -17,4 +17,13 @@ class Score extends Model
     public function game() {
         return $this->belongsTo('App\Models\Game');
     }
+
+    public function display() {
+        return [
+            'score' => $this->score,
+            'player' => $this->scorer,
+            'date' => date($this->updated_at)
+        ];
+    }
+
 }
