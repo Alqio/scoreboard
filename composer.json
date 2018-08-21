@@ -1,0 +1,6 @@
+{
+    "require": {
+        "laravel/homestead": "^7.14",
+        "laravel/installer": "^2.0"
+    }
+}
